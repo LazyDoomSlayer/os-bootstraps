@@ -1,0 +1,6 @@
+.env
+.env.local
+.env.*.local
+# Unset ignore for examples
+!.env.example
+
