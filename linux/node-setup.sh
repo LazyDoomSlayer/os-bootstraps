@@ -3,7 +3,7 @@ set -euo pipefail
 
 # ----------------------------------------------------------------------------
 # Script: node-setup.sh
-# Purpose: Installs NVM, Node.js, npm (via Node.js), and yarn & pnpm on Ubuntu/WSL
+# Purpose: Installs NVM, Node.js, npm (via Node.js), and yarn & pnpm
 # Usage: ./node-setup.sh
 # ----------------------------------------------------------------------------
 
