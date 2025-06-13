@@ -3,15 +3,23 @@ set -euo pipefail
 
 # ----------------------------------------------------------------------------
 # Script: python-setup.sh
-# Purpose: Installs pipx and ruff for python development.
+# Purpose: Installs pipx and ruff for Python development with informative output.
 # Usage: ./python-setup.sh
 # ----------------------------------------------------------------------------
 
-sudo apt install pipx
+echo "Starting Python development environment setup..."
+
+echo "Installing pipx via apt..."
+sudo apt install -y pipx
+
+echo "Ensuring pipx user path is added to your shell..."
 pipx ensurepath
 
-# Optional Setup
+# Optional global path setup
+echo "Ensuring pipx global path is added (requires sudo)..."
 sudo pipx ensurepath --global
 
-# Installs ruff
+echo "Installing ruff (a fast Python linter)..."
 pipx install ruff
+
+echo "Setup complete!"
