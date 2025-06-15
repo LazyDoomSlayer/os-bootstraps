@@ -16,6 +16,7 @@ print_logo() {
 EOF
 }
 
+clear
 print_logo
 
 # Source utility functions
@@ -33,11 +34,6 @@ source packages.conf
 echo "Updating system..."
 sudo apt-get update -y
 sudo apt-get upgrade -y
-
-SYSTEM_UTILS_APT
-SYSTEM_UTILS_SNAP
-DEV_TOOLS_SNAP
-DEV_TOOLS_APT
 
 # Install all packages
 echo "[APT] Installing system utilities..."
