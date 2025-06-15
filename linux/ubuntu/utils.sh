@@ -18,17 +18,22 @@ install_apt_packages() {
     fi
   done
 
-  if [ ${#APT_QUEUE[@]} -gt 0 ]; then
+  if [ ${#to_install[@]} -gt 0 ]; then
     echo "Updating apt package lists..."
     sudo apt-get update -qq
-    echo "Installing APT packages: ${APT_QUEUE[*]}"
-    sudo apt-get install -y "${APT_QUEUE[@]}"
+    echo "Installing APT packages: ${to_install[*]}"
+    sudo apt-get install -y "${to_install[@]}"
   else
     echo "No APT packages to install."
   fi
 }
 
 install_snap_packages() {
+  if ! command -v snap &>/dev/null; then
+    echo "Snap is not installed. Skipping Snap package installation."
+    return
+  fi
+
   local pkgs=("$@")
   local to_install=()
 
@@ -38,14 +43,20 @@ install_snap_packages() {
     fi
   done
 
-  if [ ${#to_install[@]} -gt 0 ]; then
-    for snap_pkg in "${to_install[@]}"; do
-      echo "Installing snap package: $snap_pkg"
-      if ! sudo snap install --classic "$snap_pkg"; then
-        sudo snap install "$snap_pkg"
-      fi
-    done
-  else
+  if [ ${#to_install[@]} -eq 0 ]; then
     echo "All Snap packages are already installed: ${pkgs[*]}"
+    return
   fi
+
+  echo "Installing Snap packages: ${to_install[*]}"
+  for snap_pkg in "${to_install[@]}"; do
+    echo "Installing: $snap_pkg"
+    if sudo snap install --classic "$snap_pkg"; then
+      echo "Installed (classic): $snap_pkg"
+    elif sudo snap install "$snap_pkg"; then
+      echo "Installed (normal): $snap_pkg"
+    else
+      echo "Failed to install: $snap_pkg"
+    fi
+  done
 }
