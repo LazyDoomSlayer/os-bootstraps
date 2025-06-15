@@ -43,10 +43,16 @@ echo "[APT] Installing development tools..."
 install_apt_packages "${DEV_TOOLS_APT[@]}"
 
 echo "[SNAP] Installing system utilities..."
-install_apt_packages "${SYSTEM_UTILS_SNAP[@]}"
+install_snap_packages "${SYSTEM_UTILS_SNAP[@]}"
 
 echo "[SNAP] Installing development tools..."
-install_apt_packages "${DEV_TOOLS_SNAP[@]}"
+install_snap_packages "${DEV_TOOLS_SNAP[@]}"
+
+# Enable execution permissions
+for f in ../node-setup.sh ./docker-setup.sh ./lazygit-setup.sh \
+  ./python-setup.sh ./zoxide-setup.sh ./tmux-config-setup.sh ./tpm-setup.sh; do
+  chmod +x "$f"
+done
 
 ../node-setup.sh
 ./docker-setup.sh
