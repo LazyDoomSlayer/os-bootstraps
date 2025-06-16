@@ -3,42 +3,33 @@ set -euo pipefail
 
 # ----------------------------------------------------------------------------
 # Script: tmux-config-setup.sh
-# Purpose: Clones custom tmux configuration, installs it, and sources the new config
+# Purpose: Clone and apply tmux config from GitHub
 # Usage: ./tmux-config-setup.sh
 # ----------------------------------------------------------------------------
 
-echo "Starting tmux configuration setup..."
+echo "Setting up tmux configuration..."
 
-# Ensure git is installed
-if ! command -v git &>/dev/null; then
-  echo "Error: git is not installed. Please install git first (e.g., sudo apt-get install git)."
-  exit 1
-fi
+for cmd in git tmux; do
+  command -v "$cmd" >/dev/null || {
+    echo "$cmd is not installed."
+    exit 1
+  }
+done
 
-echo "Cloning tmux-configuration repository..."
-CLONE_DIR="/tmp/tmux-configuration"
+CLONE_DIR="$(mktemp -d)"
+git clone --depth=1 https://github.com/LazyDoomSlayer/tmux-configuration.git "$CLONE_DIR"
 
-# Remove existing clone if present
-i[ -d "$CLONE_DIR" ] && rm -rf "$CLONE_DIR"
+# Note: File in repo is tmux.conf ( with no dot )
+cp "$CLONE_DIR/tmux.conf" "$HOME/.tmux.conf"
+echo "Copied .tmux.conf to ~"
 
-git clone https://github.com/LazyDoomSlayer/tmux-configuration.git "$CLONE_DIR"
-
-# Copy .tmux.conf to home directory
-echo "Copying .tmux.conf to ~/.tmux.conf..."
-cp "$CLONE_DIR/.tmux.conf" "$HOME/.tmux.conf"
-
-# Source the new configuration in any running tmux session
-echo "Sourcing ~/.tmux.conf in existing tmux sessions..."
-if command -v tmux &>/dev/null && tmux ls &>/dev/null; then
+if tmux ls &>/dev/null; then
   tmux source-file "$HOME/.tmux.conf"
-  echo "Configuration sourced."  
+  echo "Reloaded tmux config in active session"
 else
-  echo "No active tmux sessions found. Changes will apply on next tmux start."
+  echo "No tmux session detected. Config will apply on next start."
 fi
 
-# Cleanup
-echo "Cleaning up temporary files..."
 rm -rf "$CLONE_DIR"
 
-echo "tmux configuration setup complete!"
-
+echo "Cleanup complete"
