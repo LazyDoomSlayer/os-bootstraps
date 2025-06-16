@@ -51,10 +51,10 @@ install_snap_packages() {
   echo "Installing Snap packages: ${to_install[*]}"
   for snap_pkg in "${to_install[@]}"; do
     echo "Installing: $snap_pkg"
-    if sudo snap install --classic "$snap_pkg"; then
-      echo "Installed (classic): $snap_pkg"
-    elif sudo snap install "$snap_pkg"; then
+    if sudo snap install "$snap_pkg"; then
       echo "Installed (normal): $snap_pkg"
+    elif sudo snap install --classic "$snap_pkg"; then
+      echo "Installed (classic): $snap_pkg"
     else
       echo "Failed to install: $snap_pkg"
     fi
