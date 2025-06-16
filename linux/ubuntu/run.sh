@@ -63,4 +63,8 @@ done
 ./tmux-config-setup.sh # Setup tmux first
 ./tpm-setup.sh         # Install tpm and init plugins
 
+# Cleanup
+echo "Cleaning up apt packages..."
+sudo apt autoremove -y
+
 echo "Setup complete! You may want to reboot your system."
