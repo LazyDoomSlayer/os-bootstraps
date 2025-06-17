@@ -63,6 +63,8 @@ done
 ./tmux-config-setup.sh # Setup tmux first
 ./tpm-setup.sh         # Install tpm and init plugins
 
+./nvim-setup.sh
+
 # Cleanup
 echo "Cleaning up apt packages..."
 sudo apt autoremove -y
