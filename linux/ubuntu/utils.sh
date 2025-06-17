@@ -60,3 +60,21 @@ install_snap_packages() {
     fi
   done
 }
+
+die() {
+  echo "ERROR: $*" >&2
+  exit 1
+}
+
+run_script() {
+  local path="$1"
+
+  [[ -f "$path" ]] || die "Script not found: $path"
+
+  echo "Preparing $(basename "$path")"
+  chmod +x "$path"
+  echo "Running $(basename "$path")"
+  "$path"
+  echo "$(basename "$path") completed"
+  echo
+}

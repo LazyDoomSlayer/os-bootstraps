@@ -48,22 +48,23 @@ install_snap_packages "${SYSTEM_UTILS_SNAP[@]}"
 echo "[SNAP] Installing development tools..."
 install_snap_packages "${DEV_TOOLS_SNAP[@]}"
 
-# Enable execution permissions
-for f in ../node-setup.sh ./docker-setup.sh ./lazygit-setup.sh \
-  ./python-setup.sh ./zoxide-setup.sh ./tmux-config-setup.sh ./tpm-setup.sh; do
-  chmod +x "$f"
+readonly SCRIPTS=(
+  "../node-setup.sh"
+  "docker-setup.sh"
+  "lazygit-setup.sh"
+  "python-setup.sh"
+  "zoxide-setup.sh"
+  "tmux-config-setup.sh"
+  "tpm-setup.sh"
+  "nvim-setup.sh"
+)
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+echo "Starting bootstrapping at $(date)"
+for rel in "${SCRIPTS[@]}"; do
+  run_script "$SCRIPT_DIR/$rel"
 done
-
-../node-setup.sh
-./docker-setup.sh
-./lazygit-setup.sh
-./python-setup.sh
-./zoxide-setup.sh
-
-./tmux-config-setup.sh # Setup tmux first
-./tpm-setup.sh         # Install tpm and init plugins
-
-./nvim-setup.sh
 
 # Cleanup
 echo "Cleaning up apt packages..."
