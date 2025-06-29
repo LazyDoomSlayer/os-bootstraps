@@ -1,0 +1,5 @@
+[user]
+    name = Personal
+    email = personal@gmail.com
+[core]
+    sshCommand = "ssh -i ~/.ssh/personal_key"
