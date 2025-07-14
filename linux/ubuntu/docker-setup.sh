@@ -7,33 +7,35 @@ set -euo pipefail
 # Usage: ./docker-setup.sh
 # ----------------------------------------------------------------------------
 
-echo "Starting Docker installation..."
+source ../utils.sh
 
-echo "Updating package database..."
+log "Starting Docker installation..."
+
+log "Updating package database..."
 sudo apt-get update
 
-echo "Installing prerequisites (ca-certificates, curl, gnupg)..."
+log "Installing prerequisites (ca-certificates, curl, gnupg)..."
 sudo apt-get install -y ca-certificates curl gnupg
 
-echo "Creating directory for Docker GPG keyrings..."
+log "Creating directory for Docker GPG keyrings..."
 sudo install -m 0755 -d /etc/apt/keyrings
 
-echo "Fetching Docker's official GPG key..."
+log "Fetching Docker's official GPG key..."
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg \
   -o /etc/apt/keyrings/docker.asc
 sudo chmod a+r /etc/apt/keyrings/docker.asc
 
-echo "Adding Docker repository to APT sources..."
+log "Adding Docker repository to APT sources..."
 ARCH=$(dpkg --print-architecture)
 UBUNTU_CODENAME=$(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}")
 echo \
   "deb [arch=${ARCH} signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
   ${UBUNTU_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/docker.list >/dev/null
 
-echo "Updating package database with Docker packages..."
+log "Updating package database with Docker packages..."
 sudo apt-get update
 
-echo "Installing Docker Engine, CLI, containerd, Buildx, and Compose plugin..."
+log "Installing Docker Engine, CLI, containerd, Buildx, and Compose plugin..."
 sudo apt-get install -y \
   docker-ce \
   docker-ce-cli \
@@ -41,8 +43,8 @@ sudo apt-get install -y \
   docker-buildx-plugin \
   docker-compose-plugin
 
-echo "Verifying Docker installation..."
+log "Verifying Docker installation..."
 sudo docker --version
 sudo docker compose version
 
-echo "Docker setup complete! You can now use 'docker' and 'docker compose'."
+success "Docker setup complete!"

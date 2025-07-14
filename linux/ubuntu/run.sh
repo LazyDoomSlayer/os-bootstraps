@@ -24,28 +24,28 @@ source utils.sh
 
 # Source the package list
 if [ ! -f "packages.conf" ]; then
-  echo "Error: packages.conf not found!"
+  error "packages.conf not found!"
   exit 1
 fi
 
 source packages.conf
 
 # Update the system first
-echo "Updating system..."
+log "Updating system..."
 sudo apt-get update -y
 sudo apt-get upgrade -y
 
 # Install all packages
-echo "[APT] Installing system utilities..."
+log "(APT) Installing system utilities..."
 install_apt_packages "${SYSTEM_UTILS_APT[@]}"
 
-echo "[APT] Installing development tools..."
+log "(APT) Installing development tools..."
 install_apt_packages "${DEV_TOOLS_APT[@]}"
 
-echo "[SNAP] Installing system utilities..."
+log "(SNAP) Installing system utilities..."
 install_snap_packages "${SYSTEM_UTILS_SNAP[@]}"
 
-echo "[SNAP] Installing development tools..."
+log "(SNAP) Installing development tools..."
 install_snap_packages "${DEV_TOOLS_SNAP[@]}"
 
 readonly SCRIPTS=(
@@ -62,13 +62,13 @@ readonly SCRIPTS=(
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-echo "Starting bootstrapping at $(date)"
+log "Starting bootstrapping at $(date)"
 for rel in "${SCRIPTS[@]}"; do
   run_script "$SCRIPT_DIR/$rel"
 done
 
 # Cleanup
-echo "Cleaning up apt packages..."
+log "Cleaning up apt packages..."
 sudo apt autoremove -y
 
-echo "Setup complete! You may want to reboot your system."
+success "Setup complete! You may want to reboot your system."

@@ -7,29 +7,35 @@ set -euo pipefail
 # Usage: ./tmux-config-setup.sh
 # ----------------------------------------------------------------------------
 
-echo "Setting up tmux configuration..."
+source ../utils.sh
 
+log "Setting up tmux configuration..."
+
+# Ensure required commands are available
 for cmd in git tmux; do
-  command -v "$cmd" >/dev/null || {
-    echo "$cmd is not installed."
+  if ! command -v "$cmd" &>/dev/null; then
+    error "$cmd is not installed. Aborting."
     exit 1
-  }
+  fi
 done
 
 CLONE_DIR="$(mktemp -d)"
+log "Cloning LazyDoomSlayer/tmux-configuration repo..."
 git clone --depth=1 https://github.com/LazyDoomSlayer/tmux-configuration.git "$CLONE_DIR"
 
-# Note: File in repo is tmux.conf ( with no dot )
+log "Copying tmux.conf to ~/.tmux.conf"
 cp "$CLONE_DIR/tmux.conf" "$HOME/.tmux.conf"
-echo "Copied .tmux.conf to ~"
+success "Copied tmux config to ~/.tmux.conf"
 
+# Apply config if tmux session is running
 if tmux ls &>/dev/null; then
+  log "Detected active tmux session. Reloading config..."
   tmux source-file "$HOME/.tmux.conf"
-  echo "Reloaded tmux config in active session"
+  success "tmux config reloaded in active session"
 else
-  echo "No tmux session detected. Config will apply on next start."
+  warn "No tmux session detected. Config will apply on next start."
 fi
 
+log "Cleaning up temporary clone directory..."
 rm -rf "$CLONE_DIR"
-
-echo "Cleanup complete"
+success "Cleanup complete"

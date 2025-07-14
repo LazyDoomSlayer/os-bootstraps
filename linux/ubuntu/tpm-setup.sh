@@ -7,29 +7,30 @@ set -euo pipefail
 # Usage: ./tpm-setup.sh
 # ----------------------------------------------------------------------------
 
-echo "Starting TPM setup for Ubuntu..."
+source ../utils.sh
 
-# Verify tmux
+log "Starting TPM (Tmux Plugin Manager) setup for Ubuntu..."
+
+# Verify tmux is installed
 if ! dpkg -s tmux &>/dev/null; then
-  echo "Error: tmux is not installed. Please install tmux first (e.g., sudo apt-get install tmux)."
+  error "tmux is not installed. Please run: sudo apt install tmux"
   exit 1
 fi
 
-echo "tmux is installed."
+success "tmux is installed ✅"
 
 TPM_DIR="$HOME/.tmux/plugins/tpm"
 
-# Install TPM
+# Install TPM if not present
 if [ -d "$TPM_DIR" ]; then
-  echo "TPM is already installed at $TPM_DIR"
+  success "TPM is already installed at $TPM_DIR"
 else
-  echo "Cloning TPM into $TPM_DIR..."
+  log "Cloning TPM into $TPM_DIR..."
   git clone https://github.com/tmux-plugins/tpm "$TPM_DIR"
-  echo "TPM cloned successfully."
+  success "TPM cloned successfully 🎉"
 fi
 
-# Install plugins quiet
-echo "Installing tmux plugins via TPM..."
+# Install plugins
+log "Installing tmux plugins via TPM..."
 "$TPM_DIR/bin/install_plugins"
-
-echo "TPM setup and plugin installation complete!"
+success "TPM setup and plugin installation complete!"
