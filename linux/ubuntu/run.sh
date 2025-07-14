@@ -20,7 +20,7 @@ clear
 print_logo
 
 # Source utility functions
-source utils.sh
+source ../utils.sh
 
 # Source the package list
 if [ ! -f "packages.conf" ]; then
