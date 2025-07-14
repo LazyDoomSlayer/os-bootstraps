@@ -7,9 +7,11 @@ set -euo pipefail
 # Usage: ./rust-setup.sh
 # ----------------------------------------------------------------------------
 
-echo "Starting Rust development environment setup..."
+source ./utils.sh
 
-echo "Installing rustup via curl headless..."
+log "Starting Rust development environment setup..."
+
+log "Installing rustup via curl headless..."
 curl https://sh.rustup.rs -sSf | sh -s -- -y
 
-echo "Setup complete!"
+success "Rustup setup complete!"

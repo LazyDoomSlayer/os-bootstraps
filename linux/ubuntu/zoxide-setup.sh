@@ -3,29 +3,29 @@ set -euo pipefail
 
 # ----------------------------------------------------------------------------
 # Script: zoxide-setup.sh
-# Purpose: Installs Zoxide for better change directory experiance
+# Purpose: Configures Zoxide for better change directory experiance
 # Usage: ./zoxide-setup.sh
 # ----------------------------------------------------------------------------
 
-# Install zoxide
-echo "Installing zoxide..."
-sudo apt install zoxide -y
+source ../utils.sh
 
 # Zoxide init
 ZOX_LINE='eval "$(zoxide init bash)"'
 
-# Check ~/.bashrc
+# Add to ~/.bashrc if not present
 if ! grep -Fxq "$ZOX_LINE" ~/.bashrc; then
-  echo "Adding zoxide init to ~/.bashrc..."
-  echo "" >>~/.bashrc
-  echo "# Initialize zoxide" >>~/.bashrc
-  echo "$ZOX_LINE" >>~/.bashrc
+  log "Adding zoxide initialization to ~/.bashrc..."
+  {
+    echo ""
+    echo "# Initialize zoxide"
+    echo "$ZOX_LINE"
+  } >>~/.bashrc
+  success "zoxide init added to ~/.bashrc"
 else
-  echo "zoxide init already present in ~/.bashrc"
+  warn "zoxide init already present in ~/.bashrc"
 fi
 
-# Reload ~/.bashrc
-echo "Reloading ~/.bashrc..."
-source ~/.bashrc
+log "Reloading ~/.bashrc..."
 
-echo "zoxide setup complete."
+source ~/.bashrc
+success "zoxide setup complete!"

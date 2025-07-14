@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+source ./utils.sh
+
 # ── Load environment variables ───────────────────────
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 if [ -f "$SCRIPT_DIR/.env" ]; then
@@ -9,7 +11,7 @@ if [ -f "$SCRIPT_DIR/.env" ]; then
   source "$SCRIPT_DIR/.env"
   set +a
 else
-  echo "❌ .env not found in $SCRIPT_DIR, aborting."
+  error ".env not found in $SCRIPT_DIR, aborting."
   exit 1
 fi
 
@@ -20,7 +22,7 @@ configure_repo() {
   local email="$3"
   local key="$4"
 
-  echo "🔧 Configuring $repo_path"
+  log "Configuring $repo_path"
   git -C "$repo_path" config --local user.name "$name"
   git -C "$repo_path" config --local user.email "$email"
   git -C "$repo_path" config --local core.sshCommand "ssh -i ${key/#\~/$HOME}"
@@ -49,4 +51,4 @@ for dir in "${BB_ROOT/#\~/$HOME}"/*; do
   fi
 done
 
-echo "✅ All matching repos configured."
+success "All matching repos configured."
