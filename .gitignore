@@ -4,3 +4,4 @@
 # Unset ignore for examples
 !.env.example
 
+.idea
