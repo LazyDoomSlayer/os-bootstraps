@@ -7,7 +7,7 @@ set -euo pipefail
 # Usage: ./zoxide-setup.sh
 # ----------------------------------------------------------------------------
 
-source ../utils.sh
+source ./utils.sh
 
 # Zoxide init
 ZOX_LINE='eval "$(zoxide init bash)"'

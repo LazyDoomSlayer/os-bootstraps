@@ -7,7 +7,7 @@ set -euo pipefail
 # Usage: ./nvim-setup.sh
 # ----------------------------------------------------------------------------
 
-source ../utils.sh
+source ./utils.sh
 
 readonly CONFIG_REPO="https://github.com/LazyDoomSlayer/nvim-configuration"
 readonly CONFIG_DIR="${HOME}/.config/nvim"

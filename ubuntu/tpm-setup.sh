@@ -7,7 +7,7 @@ set -euo pipefail
 # Usage: ./tpm-setup.sh
 # ----------------------------------------------------------------------------
 
-source ../utils.sh
+source ./utils.sh
 
 log "Starting TPM (Tmux Plugin Manager) setup for Ubuntu..."
 

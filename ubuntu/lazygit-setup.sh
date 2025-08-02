@@ -7,7 +7,7 @@ set -euo pipefail
 # Usage: ./lazygit-setup.sh
 # ----------------------------------------------------------------------------
 
-source ../utils.sh
+source ./utils.sh
 
 log "Starting lazygit installation..."
 

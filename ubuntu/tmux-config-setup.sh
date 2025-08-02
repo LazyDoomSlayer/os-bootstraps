@@ -7,7 +7,7 @@ set -euo pipefail
 # Usage: ./tmux-config-setup.sh
 # ----------------------------------------------------------------------------
 
-source ../utils.sh
+source ./utils.sh
 
 log "Setting up tmux configuration..."
 

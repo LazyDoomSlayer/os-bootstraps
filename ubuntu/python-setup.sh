@@ -7,7 +7,7 @@ set -euo pipefail
 # Usage: ./python-setup.sh
 # ----------------------------------------------------------------------------
 
-source ../utils.sh
+source ./utils.sh
 
 log "Starting Python development environment setup..."
 

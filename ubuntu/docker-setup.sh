@@ -7,7 +7,7 @@ set -euo pipefail
 # Usage: ./docker-setup.sh
 # ----------------------------------------------------------------------------
 
-source ../utils.sh
+source ./utils.sh
 
 log "Starting Docker installation..."
 
