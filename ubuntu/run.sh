@@ -49,8 +49,8 @@ log "(SNAP) Installing development tools..."
 install_snap_packages "${DEV_TOOLS_SNAP[@]}"
 
 readonly SCRIPTS=(
-  "./node-setup.sh"
-  "./rust-setup.sh"
+  "node-setup.sh"
+  "rust-setup.sh"
   "docker-setup.sh"
   "lazygit-setup.sh"
   "python-setup.sh"
